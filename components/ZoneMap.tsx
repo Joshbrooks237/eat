@@ -55,6 +55,18 @@ function gpsToSvg(lat: number, lng: number): { x: number; y: number } {
   return { x: Math.round(x), y: Math.round(y) };
 }
 
+function DriverDot({ lat, lng }: { lat?: number | null; lng?: number | null }) {
+  if (lat == null || lng == null) return null;
+  const { x, y } = gpsToSvg(lat, lng);
+  return (
+    <g>
+      <circle cx={x} cy={y} r={14} fill="rgba(59,130,246,0.15)" />
+      <circle cx={x} cy={y} r={7} fill="#3b82f6" fillOpacity={0.9} stroke="#93c5fd" strokeWidth={2} />
+      <circle cx={x} cy={y} r={3} fill="white" />
+    </g>
+  );
+}
+
 export default function ZoneMap({ zoneStats, events, driverLat, driverLng }: Props) {
   const [hovered, setHovered] = useState<string | null>(null);
 
@@ -211,16 +223,7 @@ export default function ZoneMap({ zoneStats, events, driverLat, driverLng }: Pro
           })}
 
           {/* Live driver position */}
-          {driverLat != null && driverLng != null && (() => {
-            const { x, y } = gpsToSvg(driverLat, driverLng);
-            return (
-              <g>
-                <circle cx={x} cy={y} r={14} fill="rgba(59,130,246,0.15)" />
-                <circle cx={x} cy={y} r={7} fill="#3b82f6" fillOpacity={0.9} stroke="#93c5fd" strokeWidth={2} />
-                <circle cx={x} cy={y} r={3} fill="white" />
-              </g>
-            );
-          })()}
+          <DriverDot lat={driverLat} lng={driverLng} />
 
           {/* Compass / label */}
           <text x="8" y="280" fontSize="8" fill="#3f3f46">W</text>
