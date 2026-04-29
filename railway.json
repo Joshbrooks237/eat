@@ -1,6 +1,7 @@
 {
   "build": { "builder": "NIXPACKS" },
   "deploy": {
+    "startCommand": "npm run migrate && npm run start",
     "healthcheckPath": "/api/shifts"
   }
 }
