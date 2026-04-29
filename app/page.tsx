@@ -6,7 +6,11 @@ import MetricCards from "@/components/MetricCards";
 import HeatMap from "@/components/HeatMap";
 import ZoneBars from "@/components/ZoneBars";
 import DispatchPanel from "@/components/DispatchPanel";
+import SlotTicker from "@/components/SlotTicker";
+import dynamic from "next/dynamic";
 import Link from "next/link";
+
+const RestaurantMap = dynamic(() => import("@/components/RestaurantMap"), { ssr: false });
 
 async function getShifts(): Promise<Shift[]> {
   const client = await getPool().connect();
@@ -68,7 +72,10 @@ export default async function Dashboard() {
         </div>
       )}
 
-      {/* 1. Dispatch Panel */}
+      {/* 1. Slot Ticker */}
+      <SlotTicker />
+
+      {/* 2. Dispatch Panel */}
       <DispatchPanel />
 
       {/* 2. Metric Cards */}
@@ -83,13 +90,16 @@ export default async function Dashboard() {
         </div>
       )}
 
-      {/* 3. Heatmap */}
+      {/* 3. Restaurant Signal Map */}
+      <RestaurantMap />
+
+      {/* 4. Heatmap */}
       <HeatMap shifts={shifts} />
 
-      {/* 4. Zone bars */}
+      {/* 5. Zone bars */}
       <ZoneBars shifts={shifts} />
 
-      {/* 5. Recent shifts */}
+      {/* 6. Recent shifts */}
       <div className="bg-zinc-950 border border-zinc-800 rounded-lg overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800">
           <span className="text-[10px] tracking-widest text-zinc-500 font-mono uppercase">
