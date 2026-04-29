@@ -1,11 +1,11 @@
 export const dynamic = "force-dynamic";
 
-import { pool } from "@/lib/db";
+import { getPool } from "@/lib/db";
 import { Shift } from "@/lib/types";
 import Link from "next/link";
 
 async function getShifts(): Promise<Shift[]> {
-  const client = await pool.connect();
+  const client = await getPool().connect();
   try {
     const result = await client.query(`
       SELECT

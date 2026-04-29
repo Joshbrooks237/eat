@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { pool } from "@/lib/db";
+import { getPool } from "@/lib/db";
 import { Shift } from "@/lib/types";
 import MetricCards from "@/components/MetricCards";
 import HeatMap from "@/components/HeatMap";
@@ -9,7 +9,7 @@ import DispatchPanel from "@/components/DispatchPanel";
 import Link from "next/link";
 
 async function getShifts(): Promise<Shift[]> {
-  const client = await pool.connect();
+  const client = await getPool().connect();
   try {
     const result = await client.query(`
       SELECT

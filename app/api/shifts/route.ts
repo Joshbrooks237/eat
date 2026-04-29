@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { pool } from "@/lib/db";
+import { getPool } from "@/lib/db";
 import { fetchWeather } from "@/lib/weather";
 
 export async function GET() {
-  const client = await pool.connect();
+  const client = await getPool().connect();
   try {
     const result = await client.query(`
       SELECT
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
   const gas_cost = Math.round(((miles_driven / kia_mpg) * gas_price) * 100) / 100;
 
   // Fetch weather for zone
-  const client = await pool.connect();
+  const client = await getPool().connect();
   let weather_condition = "Unknown";
   try {
     const zoneRow = await client.query("SELECT lat, lng FROM zones WHERE name = $1", [zone]);

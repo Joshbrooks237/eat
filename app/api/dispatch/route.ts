@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { pool } from "@/lib/db";
+import { getPool } from "@/lib/db";
 import { openai } from "@/lib/openai";
 import { fetchWeather } from "@/lib/weather";
 
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "zone, current_time, day_of_week required" }, { status: 400 });
   }
 
-  const client = await pool.connect();
+  const client = await getPool().connect();
   try {
     // 1. Get zone coordinates
     const zoneRow = await client.query("SELECT lat, lng, cluster_score FROM zones WHERE name = $1", [zone]);
