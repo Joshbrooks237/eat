@@ -52,8 +52,8 @@ export default function ZoneMap({ zoneStats, events }: Props) {
   const eventZones = new Set(events.map((e) => e.zone));
 
   return (
-    <div className="bg-zinc-950 border border-zinc-800 rounded-lg overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800">
+    <div className="bg-[#1f1f23] border border-zinc-700/50 rounded-lg overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-700/50">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
           <span className="text-[10px] tracking-widest text-zinc-500 font-mono uppercase">Zone Radar</span>

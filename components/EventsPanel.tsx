@@ -21,8 +21,8 @@ export default function EventsPanel({ events }: { events: LocalEvent[] }) {
   const upcomingEvents = events.filter((e) => e.date > today).slice(0, 4);
 
   return (
-    <div className="bg-zinc-950 border border-zinc-800 rounded-lg overflow-hidden">
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-zinc-800">
+    <div className="bg-[#1f1f23] border border-zinc-700/50 rounded-lg overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-zinc-700/50">
         <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
         <span className="text-[10px] tracking-widest text-zinc-500 font-mono uppercase">
           Local Events
@@ -47,7 +47,7 @@ export default function EventsPanel({ events }: { events: LocalEvent[] }) {
                 href={evt.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-start gap-3 p-2.5 rounded bg-zinc-900/60 hover:bg-zinc-800/60 transition-colors group"
+                className="flex items-start gap-3 p-2.5 rounded bg-[#27272b]/60 hover:bg-zinc-800/60 transition-colors group"
               >
                 <span className="text-lg mt-0.5">{icon(evt.category)}</span>
                 <div className="flex-1 min-w-0">

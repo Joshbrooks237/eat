@@ -21,7 +21,7 @@ interface CellData {
 }
 
 function scoreToColor(score: number): string {
-  if (score === 0) return "bg-zinc-900 border-zinc-800";
+  if (score === 0) return "bg-zinc-900 border-zinc-700/50";
   if (score < 20) return "bg-green-950/60 border-green-900/40";
   if (score < 40) return "bg-green-900/70 border-green-800/50";
   if (score < 60) return "bg-green-800/80 border-green-700/60";
@@ -74,7 +74,7 @@ export default function HeatMap({ shifts }: { shifts: Shift[] }) {
   }
 
   return (
-    <div className="bg-zinc-950 border border-zinc-800 rounded-lg p-4">
+    <div className="bg-[#1f1f23] border border-zinc-700/50 rounded-lg p-4">
       <h2 className="text-xs tracking-widest text-zinc-500 font-mono uppercase mb-4">
         Earnings Heatmap — Day × Time Slot
       </h2>
@@ -110,7 +110,7 @@ export default function HeatMap({ shifts }: { shifts: Shift[] }) {
                       <div
                         className={`
                           rounded border px-1 py-1.5 cursor-default transition-all
-                          ${cell ? scoreToColor(cell.score) : "bg-zinc-900 border-zinc-800"}
+                          ${cell ? scoreToColor(cell.score) : "bg-zinc-900 border-zinc-700/50"}
                           ${isHovered ? "ring-1 ring-amber-500/60" : ""}
                         `}
                       >

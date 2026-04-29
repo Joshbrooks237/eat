@@ -21,7 +21,7 @@ export default function LogPage() {
         </p>
       </div>
 
-      <div className="bg-zinc-950 border border-zinc-800 rounded-lg p-6">
+      <div className="bg-[#1f1f23] border border-zinc-700/50 rounded-lg p-6">
         <ShiftForm />
       </div>
     </div>

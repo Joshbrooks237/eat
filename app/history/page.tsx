@@ -89,7 +89,7 @@ export default async function HistoryPage() {
             { label: "TOTAL NET", value: `$${totalNet.toFixed(2)}` },
             { label: "AVG HOURLY", value: totalHours > 0 ? `$${(totalGross / totalHours).toFixed(2)}` : "—" },
           ].map((c) => (
-            <div key={c.label} className="bg-zinc-900 border border-zinc-800 rounded p-3">
+            <div key={c.label} className="bg-zinc-900 border border-zinc-700/50 rounded p-3">
               <div className="text-[10px] text-zinc-600 font-mono uppercase tracking-widest mb-1">{c.label}</div>
               <div className="text-lg font-bold font-mono text-amber-400">{c.value}</div>
             </div>
@@ -98,7 +98,7 @@ export default async function HistoryPage() {
       )}
 
       {/* Full table */}
-      <div className="bg-zinc-950 border border-zinc-800 rounded-lg overflow-hidden">
+      <div className="bg-[#1f1f23] border border-zinc-700/50 rounded-lg overflow-hidden">
         {shifts.length === 0 ? (
           <div className="p-12 text-center font-mono text-zinc-600">
             No shifts logged.{" "}
@@ -110,7 +110,7 @@ export default async function HistoryPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-xs font-mono">
               <thead>
-                <tr className="border-b border-zinc-800 bg-zinc-900/50">
+                <tr className="border-b border-zinc-700/50 bg-[#27272b]/50">
                   {[
                     "Date", "Day", "Slot", "Zone", "Hrs", "Gross", "Net", "Gas",
                     "Tips", "Tip%", "Orders", "$/hr", "Miles", "Wx", "Notes",
@@ -128,7 +128,7 @@ export default async function HistoryPage() {
                 {shifts.map((s) => (
                   <tr
                     key={s.id}
-                    className="border-b border-zinc-900/50 hover:bg-zinc-900/40 transition-colors"
+                    className="border-b border-zinc-900/50 hover:bg-[#27272b]/40 transition-colors"
                   >
                     <td className="px-3 py-2 text-zinc-600 whitespace-nowrap">
                       {new Date(s.created_at).toLocaleDateString("en-US", {
@@ -157,7 +157,7 @@ export default async function HistoryPage() {
                 ))}
               </tbody>
               <tfoot>
-                <tr className="border-t border-zinc-700 bg-zinc-900/50">
+                <tr className="border-t border-zinc-700 bg-[#27272b]/50">
                   <td colSpan={5} className="px-3 py-2 text-zinc-600">
                     {shifts.length} shifts · {totalHours.toFixed(1)} hrs
                   </td>

@@ -227,7 +227,7 @@ export default function ShiftForm() {
 
       {/* Gas / net preview */}
       {preview && (
-        <div className="bg-zinc-900/80 border border-zinc-700 rounded p-4 font-mono text-sm grid grid-cols-3 gap-4">
+        <div className="bg-[#27272b]/80 border border-zinc-700 rounded p-4 font-mono text-sm grid grid-cols-3 gap-4">
           <div>
             <div className="text-[10px] text-zinc-600 uppercase tracking-widest mb-1">Gas Cost</div>
             <div className="text-red-400 font-bold">${preview.gas_cost.toFixed(2)}</div>
@@ -284,6 +284,6 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 const INPUT_CLS =
-  "w-full bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono text-sm rounded px-3 py-2.5 focus:outline-none focus:border-amber-500/60 placeholder:text-zinc-700";
+  "w-full bg-[#27272b] border border-zinc-700 text-zinc-100 font-mono text-sm rounded px-3 py-2.5 focus:outline-none focus:border-amber-500/60 placeholder:text-zinc-700";
 const SELECT_CLS =
-  "w-full bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono text-sm rounded px-3 py-2.5 focus:outline-none focus:border-amber-500/60";
+  "w-full bg-[#27272b] border border-zinc-700 text-zinc-100 font-mono text-sm rounded px-3 py-2.5 focus:outline-none focus:border-amber-500/60";

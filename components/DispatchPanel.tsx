@@ -90,8 +90,8 @@ export default function DispatchPanel() {
   return (
     <div
       className={`
-        bg-zinc-950 border rounded-lg p-6 transition-all duration-500
-        ${cfg ? `${cfg.glow} ring-1 ${cfg.ring}` : "border-zinc-800"}
+        bg-[#1f1f23] border rounded-lg p-6 transition-all duration-500
+        ${cfg ? `${cfg.glow} ring-1 ${cfg.ring}` : "border-zinc-700/50"}
       `}
     >
       {/* Header */}
@@ -191,7 +191,7 @@ export default function DispatchPanel() {
           </div>
 
           {/* Data grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 border-t border-zinc-800 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 border-t border-zinc-700/50 pt-4">
             <DataRow label="REASON" value={result.reason} highlight />
             <DataRow label="SUGGESTED ZONE" value={result.suggested_zone} />
             <DataRow label="BEST POSITION" value={result.best_position} />
@@ -221,7 +221,7 @@ function DataRow({
   warn?: boolean;
 }) {
   return (
-    <div className="bg-zinc-900/60 rounded p-3">
+    <div className="bg-[#27272b]/60 rounded p-3">
       <div className="text-[10px] tracking-widest text-zinc-600 font-mono uppercase mb-1">{label}</div>
       <div className={`text-sm font-mono ${highlight ? "text-zinc-100" : warn ? "text-amber-400/80" : "text-zinc-300"}`}>
         {value}

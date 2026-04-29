@@ -35,7 +35,7 @@ export default function ZoneBars({ shifts }: { shifts: Shift[] }) {
 
   if (zones.length === 0) {
     return (
-      <div className="bg-zinc-950 border border-zinc-800 rounded-lg p-4">
+      <div className="bg-[#1f1f23] border border-zinc-700/50 rounded-lg p-4">
         <h2 className="text-xs tracking-widest text-zinc-500 font-mono uppercase mb-4">Zone Performance</h2>
         <p className="text-zinc-700 font-mono text-sm">No shift data yet.</p>
       </div>
@@ -43,7 +43,7 @@ export default function ZoneBars({ shifts }: { shifts: Shift[] }) {
   }
 
   return (
-    <div className="bg-zinc-950 border border-zinc-800 rounded-lg p-4">
+    <div className="bg-[#1f1f23] border border-zinc-700/50 rounded-lg p-4">
       <h2 className="text-xs tracking-widest text-zinc-500 font-mono uppercase mb-4">Zone Performance</h2>
       <div className="space-y-3">
         {zones.map((z) => (
@@ -59,13 +59,13 @@ export default function ZoneBars({ shifts }: { shifts: Shift[] }) {
                 <span className="text-zinc-600">{z.shift_count}x</span>
               </div>
             </div>
-            <div className="h-2 bg-zinc-900 rounded-full overflow-hidden">
+            <div className="h-2 bg-[#27272b] rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-full transition-all duration-500"
                 style={{ width: `${(z.total_gross / maxGross) * 100}%` }}
               />
             </div>
-            <div className="h-1 bg-zinc-900 rounded-full overflow-hidden mt-0.5">
+            <div className="h-1 bg-[#27272b] rounded-full overflow-hidden mt-0.5">
               <div
                 className="h-full bg-gradient-to-r from-green-800 to-green-500 rounded-full transition-all duration-500"
                 style={{ width: `${(z.total_net / maxGross) * 100}%` }}

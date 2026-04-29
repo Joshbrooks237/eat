@@ -108,7 +108,7 @@ export default async function Dashboard() {
       {shifts.length > 0 ? (
         <MetricCards shifts={shifts} />
       ) : (
-        <div className="bg-zinc-900 border border-zinc-800 rounded p-6 text-center font-mono text-zinc-600">
+        <div className="bg-zinc-900 border border-zinc-700/50 rounded p-6 text-center font-mono text-zinc-600">
           No shifts logged yet.{" "}
           <Link href="/log" className="text-amber-400 hover:underline">
             Log your first shift →
@@ -133,8 +133,8 @@ export default async function Dashboard() {
       <ZoneBars shifts={shifts} />
 
       {/* 6. Recent shifts */}
-      <div className="bg-zinc-950 border border-zinc-800 rounded-lg overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800">
+      <div className="bg-[#1f1f23] border border-zinc-700/50 rounded-lg overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-700/50">
           <span className="text-[10px] tracking-widest text-zinc-500 font-mono uppercase">
             Recent Shifts
           </span>
@@ -163,7 +163,7 @@ export default async function Dashboard() {
                 {recent.map((s) => (
                   <tr
                     key={s.id}
-                    className="border-b border-zinc-900/50 hover:bg-zinc-900/50 transition-colors"
+                    className="border-b border-zinc-900/50 hover:bg-[#27272b]/50 transition-colors"
                   >
                     <td className="px-4 py-2.5 text-zinc-400">{s.day.slice(0, 3)}</td>
                     <td className="px-4 py-2.5 text-zinc-500">{s.slot.split(" ")[0]}</td>
