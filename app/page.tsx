@@ -8,6 +8,8 @@ import ZoneBars from "@/components/ZoneBars";
 import DispatchPanel from "@/components/DispatchPanel";
 import EventsPanel from "@/components/EventsPanel";
 import ZoneMap from "@/components/ZoneMap";
+import ShiftTracker from "@/components/ShiftTracker";
+import LiveDashboard from "@/components/LiveDashboard";
 import Link from "next/link";
 import type { LocalEvent } from "@/app/api/events/route";
 
@@ -116,15 +118,8 @@ export default async function Dashboard() {
         </div>
       )}
 
-      {/* 3. Zone Map + Events side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <ZoneMap zoneStats={zoneStats} events={events} />
-        </div>
-        <div>
-          <EventsPanel events={events} />
-        </div>
-      </div>
+      {/* 3. Live tracking + Zone Map + Events */}
+      <LiveDashboard zoneStats={zoneStats} events={events} />
 
       {/* 4. Heatmap */}
       <HeatMap shifts={shifts} />

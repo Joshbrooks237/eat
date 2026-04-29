@@ -44,6 +44,21 @@ async function migrate() {
     `);
 
     await client.query(`
+      CREATE TABLE IF NOT EXISTS location_pings (
+        id SERIAL PRIMARY KEY,
+        shift_id INTEGER REFERENCES shifts(id) ON DELETE CASCADE,
+        lat NUMERIC(10,7) NOT NULL,
+        lng NUMERIC(10,7) NOT NULL,
+        accuracy NUMERIC(8,2),
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      );
+    `);
+
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS idx_location_pings_shift_id ON location_pings(shift_id);
+    `);
+
+    await client.query(`
       INSERT INTO zones (name, lat, lng) VALUES
         ('Thousand Oaks', 34.1706, -118.8376),
         ('Simi Valley', 34.2694, -118.7815),

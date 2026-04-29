@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ShiftForm from "@/components/ShiftForm";
 
 export default function LogPage() {
@@ -22,7 +23,9 @@ export default function LogPage() {
       </div>
 
       <div className="bg-[#1f1f23] border border-zinc-700/50 rounded-lg p-6">
-        <ShiftForm />
+        <Suspense fallback={<div className="text-zinc-600 font-mono text-sm">Loading form...</div>}>
+          <ShiftForm />
+        </Suspense>
       </div>
     </div>
   );

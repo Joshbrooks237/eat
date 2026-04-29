@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const ZONES = [
   "Thousand Oaks",
@@ -35,13 +35,17 @@ const GAS_PRICE = 4.89;
 
 export default function ShiftForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const now = new Date();
   const defaultDay = DAYS[now.getDay() === 0 ? 6 : now.getDay() - 1];
+
+  const prefilledZone = searchParams.get("zone");
+  const linkedShiftId = searchParams.get("shift_id");
 
   const [form, setForm] = useState({
     day: defaultDay,
     slot: "Dinner 5-8pm",
-    zone: ZONES[0],
+    zone: (prefilledZone && ZONES.includes(prefilledZone)) ? prefilledZone : ZONES[0],
     hours: "",
     gross_earnings: "",
     tip_total: "",
@@ -131,6 +135,13 @@ export default function ShiftForm() {
     }
   }
 
+  const shiftBanner = linkedShiftId ? (
+    <div className="bg-green-950/30 border border-green-500/30 rounded p-3 mb-5 font-mono text-xs text-green-400">
+      ✓ Shift #{linkedShiftId} ended — fill in your earnings to complete the log.
+      {prefilledZone && <span className="ml-2 text-zinc-500">Zone pre-filled from GPS.</span>}
+    </div>
+  ) : null;
+
   if (success) {
     return (
       <div className="text-center py-16 font-mono">
@@ -143,6 +154,7 @@ export default function ShiftForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5 max-w-2xl mx-auto">
+      {shiftBanner}
       <div className="grid grid-cols-2 gap-4">
         <Field label="DAY">
           <select value={form.day} onChange={(e) => set("day", e.target.value)} className={SELECT_CLS}>

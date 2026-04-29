@@ -23,6 +23,8 @@ interface ZoneStat {
 interface Props {
   zoneStats: ZoneStat[];
   events: LocalEvent[];
+  driverLat?: number | null;
+  driverLng?: number | null;
 }
 
 function earningsColor(gross: number, max: number): string {
@@ -43,7 +45,17 @@ function glowColor(gross: number, max: number): string {
   return "rgba(249,115,22,0.25)";
 }
 
-export default function ZoneMap({ zoneStats, events }: Props) {
+// Map GPS coords to SVG canvas coords
+// Canvas: x 0-420, y 0-290
+// Lng range: -119.12 to -118.67 → x 0 to 420
+// Lat range: 34.10 to 34.33 → y 290 to 0 (inverted)
+function gpsToSvg(lat: number, lng: number): { x: number; y: number } {
+  const x = ((lng - (-119.12)) / (-118.67 - (-119.12))) * 420;
+  const y = ((34.33 - lat) / (34.33 - 34.10)) * 290;
+  return { x: Math.round(x), y: Math.round(y) };
+}
+
+export default function ZoneMap({ zoneStats, events, driverLat, driverLng }: Props) {
   const [hovered, setHovered] = useState<string | null>(null);
 
   const statMap = Object.fromEntries(zoneStats.map((s) => [s.zone, s]));
@@ -197,6 +209,18 @@ export default function ZoneMap({ zoneStats, events }: Props) {
               </g>
             );
           })}
+
+          {/* Live driver position */}
+          {driverLat != null && driverLng != null && (() => {
+            const { x, y } = gpsToSvg(driverLat, driverLng);
+            return (
+              <g>
+                <circle cx={x} cy={y} r={14} fill="rgba(59,130,246,0.15)" />
+                <circle cx={x} cy={y} r={7} fill="#3b82f6" fillOpacity={0.9} stroke="#93c5fd" strokeWidth={2} />
+                <circle cx={x} cy={y} r={3} fill="white" />
+              </g>
+            );
+          })()}
 
           {/* Compass / label */}
           <text x="8" y="280" fontSize="8" fill="#3f3f46">W</text>
