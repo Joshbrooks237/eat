@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "npm run migrate && next start",
+    "start": "npm run migrate && next start -p ${PORT:-3000}",
     "migrate": "tsx scripts/migrate.ts"
   },
   "dependencies": {
