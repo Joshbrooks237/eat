@@ -6,11 +6,10 @@ import MetricCards from "@/components/MetricCards";
 import HeatMap from "@/components/HeatMap";
 import ZoneBars from "@/components/ZoneBars";
 import DispatchPanel from "@/components/DispatchPanel";
-import SlotTicker from "@/components/SlotTicker";
-import dynamic from "next/dynamic";
+import EventsPanel from "@/components/EventsPanel";
+import ZoneMap from "@/components/ZoneMap";
 import Link from "next/link";
-
-const RestaurantMap = dynamic(() => import("@/components/RestaurantMap"), { ssr: false });
+import type { LocalEvent } from "@/app/api/events/route";
 
 async function getShifts(): Promise<Shift[]> {
   const client = await getPool().connect();
@@ -26,6 +25,20 @@ async function getShifts(): Promise<Shift[]> {
     return result.rows;
   } finally {
     client.release();
+  }
+}
+
+async function getEvents(): Promise<LocalEvent[]> {
+  try {
+    const baseUrl = process.env.RAILWAY_PUBLIC_DOMAIN
+      ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+      : "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/events`, { next: { revalidate: 1800 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.events ?? [];
+  } catch {
+    return [];
   }
 }
 
@@ -52,6 +65,7 @@ function weatherIcon(condition: string) {
 export default async function Dashboard() {
   let shifts: Shift[] = [];
   let dbError = false;
+  let events: LocalEvent[] = [];
 
   try {
     shifts = await getShifts();
@@ -59,7 +73,22 @@ export default async function Dashboard() {
     dbError = true;
   }
 
+  try {
+    events = await getEvents();
+  } catch {
+    // non-fatal
+  }
+
   const recent = shifts.slice(0, 10);
+
+  // Build zone stats for the map
+  const zoneStatMap: Record<string, { zone: string; total_gross: number; shift_count: number }> = {};
+  for (const s of shifts) {
+    if (!zoneStatMap[s.zone]) zoneStatMap[s.zone] = { zone: s.zone, total_gross: 0, shift_count: 0 };
+    zoneStatMap[s.zone].total_gross += Number(s.gross_earnings);
+    zoneStatMap[s.zone].shift_count += 1;
+  }
+  const zoneStats = Object.values(zoneStatMap);
 
   return (
     <div className="space-y-6">
@@ -72,10 +101,7 @@ export default async function Dashboard() {
         </div>
       )}
 
-      {/* 1. Slot Ticker */}
-      <SlotTicker />
-
-      {/* 2. Dispatch Panel */}
+      {/* 1. Dispatch Panel */}
       <DispatchPanel />
 
       {/* 2. Metric Cards */}
@@ -90,8 +116,15 @@ export default async function Dashboard() {
         </div>
       )}
 
-      {/* 3. Restaurant Signal Map */}
-      <RestaurantMap />
+      {/* 3. Zone Map + Events side by side */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <ZoneMap zoneStats={zoneStats} events={events} />
+        </div>
+        <div>
+          <EventsPanel events={events} />
+        </div>
+      </div>
 
       {/* 4. Heatmap */}
       <HeatMap shifts={shifts} />
