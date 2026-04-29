@@ -77,6 +77,9 @@ export default function DispatchPanel() {
       });
       if (!res.ok) throw new Error(`API error ${res.status}`);
       const data = await res.json();
+      // Normalize verdict to uppercase in case GPT returns lowercase
+      if (data.verdict) data.verdict = String(data.verdict).toUpperCase();
+      if (!["GO", "WAIT", "NO"].includes(data.verdict)) data.verdict = "WAIT";
       setResult(data);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Dispatch failed");
@@ -96,7 +99,7 @@ export default function DispatchPanel() {
     >
       {/* Header */}
       <div className="flex items-center gap-2 mb-5">
-        <div className={`w-2 h-2 rounded-full animate-pulse ${result ? cfg!.dot : "bg-zinc-600"}`} />
+        <div className={`w-2 h-2 rounded-full animate-pulse ${cfg ? cfg.dot : "bg-zinc-600"}`} />
         <span className="text-[10px] tracking-[0.25em] text-zinc-500 font-mono uppercase">
           Dispatch Intelligence
         </span>
