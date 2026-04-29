@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     // 1. Get zone coordinates
     const zoneRow = await client.query("SELECT lat, lng, cluster_score FROM zones WHERE name = $1", [zone]);
     if (zoneRow.rows.length === 0) {
-      return NextResponse.json({ error: "Zone not found" }, { status: 404 });
+      return NextResponse.json({ error: `Zone not found: ${zone}` }, { status: 404 });
     }
     const { lat, lng, cluster_score } = zoneRow.rows[0];
 
@@ -105,6 +105,10 @@ Cluster Score: ${cluster_score}/10
 Respond ONLY with valid JSON. No markdown fences.
 `.trim();
 
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json({ error: "OPENAI_API_KEY is not set" }, { status: 500 });
+    }
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       temperature: 0.4,
@@ -133,6 +137,10 @@ Respond ONLY with valid JSON. No markdown fences.
         avg_earnings: avgEarnings,
       },
     });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("Dispatch error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   } finally {
     client.release();
   }
