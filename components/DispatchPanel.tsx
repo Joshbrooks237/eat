@@ -169,7 +169,7 @@ export default function DispatchPanel() {
                   {Array.from({ length: 10 }).map((_, i) => (
                     <div
                       key={i}
-                      className={`w-3 h-3 rounded-sm ${i < result.confidence ? cfg.dot : "bg-zinc-800"}`}
+                      className={`w-3 h-3 rounded-sm ${i < result.confidence && cfg ? cfg.dot : "bg-zinc-800"}`}
                     />
                   ))}
                 </div>
